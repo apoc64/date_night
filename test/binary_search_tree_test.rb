@@ -9,6 +9,11 @@ class BinarySearchTreeTest < MiniTest::Test
 # Assume we’ve started with:
 def setup
   @tree = BinarySearchTree.new
+
+  @tree.insert(61, "Bill & Ted's Excellent Adventure")
+  @tree.insert(16, "Johnny English")
+  @tree.insert(92, "Sharknado 3")
+  @tree.insert(50, "Hannibal Buress: Animal Furnace")
 end
 
 def test_it_exists
@@ -17,55 +22,50 @@ end
 
 # insert
 def test_it_can_insert
-  depth = @tree.insert(61, "Bill & Ted's Excellent Adventure")
+  new_tree = BinarySearchTree.new
+  depth = new_tree.insert(61, "Bill & Ted's Excellent Adventure")
   assert_equal 0, depth
-  depth = @tree.insert(16, "Johnny English")
+  depth = new_tree.insert(16, "Johnny English")
   assert_equal 1, depth
-  depth = @tree.insert(92, "Sharknado 3")
+  depth = new_tree.insert(92, "Sharknado 3")
   assert_equal 1, depth
-  depth = @tree.insert(50, "Hannibal Buress: Animal Furnace")
+  depth = new_tree.insert(50, "Hannibal Buress: Animal Furnace")
   assert_equal 2, depth
 end
-#
-# include?
-def test_it_can_include
-  # Verify/reject the presence of a score in the tree:
-  @tree.insert(61, "Bill & Ted's Excellent Adventure")
-  @tree.insert(16, "Johnny English")
-  @tree.insert(92, "Sharknado 3")
-  @tree.insert(50, "Hannibal Buress: Animal Furnace")
 
+def test_it_can_include
   assert @tree.include?(16)
-# # => true
   refute @tree.include?(72)
-# # => false
 end
-# depth_of
-# Reports the depth of the tree where a score appears. Return nil if the score does not exist:
-#
-# tree.depth_of(92)
-# # => 1
-# tree.depth_of(50)
-# # => 2
-# max
-# Which movie has the highest score in the list? What is it’s score?
-#
-# tree.max
-# # => {"Sharknado 3"=>92}
-# min
-# Which movie has the lowest score in the list? What is it’s score?
-#
-# tree.min
-# # => {"Johnny English"=>16}
+
+def test_it_can_return_depth
+  assert_equal 1, @tree.depth_of(92)
+  assert_equal 2, @tree.depth_of(50)
+end
+
+def test_it_can_return_max
+  max = @tree.max
+  assert_equal max.name, "Sharknado 3"
+  assert_equal max.score, 92
+end
+
+def test_it_can_return_min
+  min = @tree.min
+  assert_equal min.name, "Johnny English"
+  assert_equal min.score, 16
+end
+
 # sort
-# Return an array of all the movies and scores in sorted ascending order. Return them as an array of hashes. Note: you’re not using Ruby’s Array#sort. You’re traversing the tree.
-#
-# tree.sort
-# # => [{"Johnny English"=>16},
-# #   {"Hannibal Buress: Animal Furnace"=>50},
-# #   {"Bill & Ted's Excellent Adventure"=>61},
-# #  {"Sharknado 3"=>92}]
+def test_it_can_sort
+  # Return an array of all the movies and scores in sorted ascending order. Return them as an array of hashes. Note: you’re not using Ruby’s Array#sort. You’re traversing the tree.
+  assert_equal @tree.sort, [{"Johnny English"=>16},
+    {"Hannibal Buress: Animal Furnace"=>50},
+    {"Bill & Ted's Excellent Adventure"=>61},
+    {"Sharknado 3"=>92}]
+  end
+
 # load
+def test_it_can_load
 # Assuming we have a file named movies.txt with one score/movie pair per line:
 #
 # # movies.txt sample format:
@@ -80,6 +80,7 @@ end
 # Where the return value is the number of movies inserted into the tree. If a score is already present in the tree when load is called, ignore it.
 #
 # See an example file here
+end 
 #
 # health
 # Report on the health of the tree by summarizing the number of child nodes (nodes beneath each node) at a given depth. For health, we’re worried about 3 values:

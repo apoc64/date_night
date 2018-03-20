@@ -13,4 +13,13 @@ class Node
     @depth = 0
   end
 
+  def to_h
+    {name => score}
+  end
+
+  def to_a
+    lesser_child.to_a + [to_h] + greater_child.to_a
+  end
+
+
 end

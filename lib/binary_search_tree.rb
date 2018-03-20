@@ -36,15 +36,40 @@ class BinarySearchTree
     end #if new > top
   end #place_node
 
-  def include?(score, node = @root)
-    if score == node.score
-      return true
-    else
-      if score > node.score
-      end
-    end #if node = score
+  def include?(score)
+    !find_node(score).nil?
   end #include
 
+  def depth_of(score)
+    node = find_node(score)
+    node.nil? ? nil : node.depth
+  end
+
+  def find_node(score, node = @root)
+    result_node = nil
+    if score == node.score
+      result_node = node
+    else
+      if score > node.score
+        result_node = node.greater_child.nil? ? nil : find_node(score, node.greater_child)
+      else
+        result_node = node.lesser_child.nil? ? nil : find_node(score, node.lesser_child)
+      end #score > node
+    end #if node = score
+    result_node
+  end #find node
+
+  def max(node = @root)
+    node.greater_child.nil? ? node : max(node.greater_child)
+  end
+
+  def min(node = @root)
+    node.lesser_child.nil? ? node : min(node.lesser_child)
+  end
+
+  def sort
+    @root.to_a
+  end
 
 
 
