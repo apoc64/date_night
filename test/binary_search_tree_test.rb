@@ -39,6 +39,8 @@ end
 def test_it_can_include
   assert @tree.include?(16)
   refute @tree.include?(72)
+  assert @tree.include?(92)
+  refute @tree.include?(21)
 end
 
 def test_it_can_return_depth
@@ -69,26 +71,16 @@ def test_it_can_sort
   @tree.insert(1, "low score")
 
   assert_equal @tree.sort, [{"low score"=>1}, {"Johnny English"=>16}, {"duplicate score"=>50}, {"Hannibal Buress: Animal Furnace"=>50}, {"root duplicate"=>61}, {"Bill & Ted's Excellent Adventure"=>61}, {"I'm new"=>90}, {"Sharknado 3"=>92}, {"high score"=>99}]
-
 end
 
 def test_it_can_load
-# Assuming we have a file named movies.txt with one score/movie pair per line:
-#
-# # movies.txt sample format:
-# 34, Hannibal Buress: Comedy Camisado
-# 63, Meet My Valentine
-# 22, Experimenter
-# 84, French Dirty
-# 41, Love
-# 10, I Love You Phillip Morris
-# tree.load('movies.txt')
-# # => 99
-# Where the return value is the number of movies inserted into the tree. If a score is already present in the tree when load is called, ignore it.
-#
-# See an example file here
+  # Assuming we have a file named movies.txt with one score/movie pair per line:
+  assert_equal 99, @tree.load('movies.txt')
+  assert_equal 103, @tree.sort.count
+  assert @tree.include?(58)
+  assert_equal "Cruel Intentions", @tree.min.name
 end
-#
+
 # health
 def test_it_can_check_health
 # Report on the health of the tree by summarizing the number of child nodes (nodes beneath each node) at a given depth. For health, we’re worried about 3 values:
@@ -113,23 +105,30 @@ def test_it_can_check_health
 #
 # [score in the node, 1 + number of child nodes, floored percentage of (1+children) over the total number of nodes]
 # When the percentages of two nodes at the same level are dramatically different, like 28 and 42 above, then we know that this tree is starting to become unbalanced.
-end 
+end
 #
 # Understanding the Shape
 # This extensions is made up of two methods:
 #
 # leaves
+def test_it_can_count_leaves
 # A leaf is a node that has no left or right value. How many leaf nodes are on the tree?
 #
 # tree.leaves
 # # => 2
+end
+
 # height
+def test_it_can_check_height
 # What is the height (aka the maximum depth) of the tree?
 #
 # tree.height
 # # => 3
+end
+
 # Extension
 # Deleting Nodes
+def test_it_can_delete_nodes
 # Remove a specified piece score from the tree:
 #
 # tree.delete(30)
@@ -137,6 +136,7 @@ end
 # tree.delete(101)
 # # => nil
 # Note that any children of the deleted node should still be present in the tree.
+end 
 #
 # Evaluation Rubric
 # The project will be assessed with the following guidelines:
