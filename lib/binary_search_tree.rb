@@ -22,18 +22,8 @@ class BinarySearchTree
     new_node.depth += 1
     if new_node.score > top_node.score
       top_node.greater.nil? ? top_node.greater = new_node : place_node(new_node, top_node.greater)
-      # if top_node.greater.nil?
-      #   top_node.greater = new_node
-      # else
-      #   place_node(new_node, top_node.greater)
-      # end # if top nil
     else
       top_node.lesser.nil? ? top_node.lesser = new_node : place_node(new_node, top_node.lesser)
-      # if top_node.lesser.nil?
-      #   top_node.lesser = new_node
-      # else
-      #   place_node(new_node, top_node.lesser)
-      # end #if top nil
     end #if new > top
   end #place_node
 
@@ -87,14 +77,30 @@ class BinarySearchTree
   end #load
 
   def health(depth)
-    # left.sort.count/right.sort.count ...
+    # binding.pry
+    nodes = []
+    sort.each do |node_hash|
+      node = find_node(node_hash.values[0])
+      if node.depth == depth
+        nodes << node
+      end
+      # binding.pry
+    end
+    nodes.map do |node|
+      health_of_node(node)
+    end
+  end
+
+  def health_of_node(node)
+    #[score, number of kids, percent of whole]
+    [node.score, sort(node).count, ((sort(node).count.to_f/sort(@root).count.to_f) * 100).to_i]
   end
 
   def leaves
   end
 
   def height
-  end 
+  end
 
   def delete
     # re - insert both children
