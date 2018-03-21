@@ -20,7 +20,6 @@ def test_it_exists
   assert_instance_of BinarySearchTree, @tree
 end
 
-# insert
 def test_it_can_insert
   new_tree = BinarySearchTree.new
   depth = new_tree.insert(61, "Bill & Ted's Excellent Adventure")
@@ -30,6 +29,10 @@ def test_it_can_insert
   depth = new_tree.insert(92, "Sharknado 3")
   assert_equal 1, depth
   depth = new_tree.insert(50, "Hannibal Buress: Animal Furnace")
+  assert_equal 2, depth
+  depth = new_tree.insert(50, "I'm a duplicate score")
+  assert_equal 3, depth
+  depth = new_tree.insert(90, "I'm a lower depth")
   assert_equal 2, depth
 end
 
@@ -55,16 +58,20 @@ def test_it_can_return_min
   assert_equal min.score, 16
 end
 
-# sort
 def test_it_can_sort
   # Return an array of all the movies and scores in sorted ascending order. Return them as an array of hashes. Note: you’re not using Ruby’s Array#sort. You’re traversing the tree.
-  assert_equal @tree.sort, [{"Johnny English"=>16},
-    {"Hannibal Buress: Animal Furnace"=>50},
-    {"Bill & Ted's Excellent Adventure"=>61},
-    {"Sharknado 3"=>92}]
-  end
+  assert_equal @tree.sort, [{"Johnny English"=>16}, {"Hannibal Buress: Animal Furnace"=>50}, {"Bill & Ted's Excellent Adventure"=>61}, {"Sharknado 3"=>92}]
+  # add extra: (new duplicates sorted to left)
+  @tree.insert(50, "duplicate score")
+  @tree.insert(90, "I'm new")
+  @tree.insert(61, "root duplicate")
+  @tree.insert(99, "high score")
+  @tree.insert(1, "low score")
 
-# load
+  assert_equal @tree.sort, [{"low score"=>1}, {"Johnny English"=>16}, {"duplicate score"=>50}, {"Hannibal Buress: Animal Furnace"=>50}, {"root duplicate"=>61}, {"Bill & Ted's Excellent Adventure"=>61}, {"I'm new"=>90}, {"Sharknado 3"=>92}, {"high score"=>99}]
+
+end
+
 def test_it_can_load
 # Assuming we have a file named movies.txt with one score/movie pair per line:
 #
@@ -80,9 +87,10 @@ def test_it_can_load
 # Where the return value is the number of movies inserted into the tree. If a score is already present in the tree when load is called, ignore it.
 #
 # See an example file here
-end 
+end
 #
 # health
+def test_it_can_check_health
 # Report on the health of the tree by summarizing the number of child nodes (nodes beneath each node) at a given depth. For health, we’re worried about 3 values:
 #
 # Score of the node
@@ -105,6 +113,7 @@ end
 #
 # [score in the node, 1 + number of child nodes, floored percentage of (1+children) over the total number of nodes]
 # When the percentages of two nodes at the same level are dramatically different, like 28 and 42 above, then we know that this tree is starting to become unbalanced.
+end 
 #
 # Understanding the Shape
 # This extensions is made up of two methods:

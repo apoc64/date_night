@@ -22,16 +22,16 @@ class BinarySearchTree
   def place_node(new_node, top_node)
     new_node.depth += 1
     if new_node.score > top_node.score
-      if top_node.greater_child.nil?
-        top_node.greater_child = new_node
+      if top_node.greater.nil?
+        top_node.greater = new_node
       else
-        place_node(new_node, top_node.greater_child)
+        place_node(new_node, top_node.greater)
       end # if top nil
     else
-      if top_node.lesser_child.nil?
-        top_node.lesser_child = new_node
+      if top_node.lesser.nil?
+        top_node.lesser = new_node
       else
-        place_node(new_node, top_node.lesser_child)
+        place_node(new_node, top_node.lesser)
       end #if top nil
     end #if new > top
   end #place_node
@@ -46,36 +46,42 @@ class BinarySearchTree
   end
 
   def find_node(score, node = @root)
-    result_node = nil
+    result = nil
     if score == node.score
-      result_node = node
+      result = node
     else
       if score > node.score
-        result_node = node.greater_child.nil? ? nil : find_node(score, node.greater_child)
+        result = node.greater.nil? ? nil : find_node(score, node.greater)
       else
-        result_node = node.lesser_child.nil? ? nil : find_node(score, node.lesser_child)
+        result = node.lesser.nil? ? nil : find_node(score, node.lesser)
       end #score > node
     end #if node = score
-    result_node
+    result
   end #find node
 
   def max(node = @root)
-    node.greater_child.nil? ? node : max(node.greater_child)
+    node.greater.nil? ? node : max(node.greater)
   end
 
   def min(node = @root)
-    node.lesser_child.nil? ? node : min(node.lesser_child)
+    node.lesser.nil? ? node : min(node.lesser)
   end
 
-  def sort
-    @root.to_a
+  def sort(node = @root)
+    node.to_a
   end
 
+  def load
 
+  end 
+
+  def health(depth)
+    # left.sort.count/right.sort.count ...
+  end
 
 end #bst class
 
 tree = BinarySearchTree.new
 tree.insert(61, "Bill & Ted's Excellent Adventure")
 tree.insert(75, "Hello World")
-binding.pry
+# binding.pry
