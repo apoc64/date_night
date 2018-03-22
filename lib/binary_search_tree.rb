@@ -114,76 +114,68 @@ class BinarySearchTree
 
   def delete(score)
     return nil if !include?(score)
-    # need parent
-    # node = find_node(score)
-    # promote lower max
+    # promote lower max or greater min - the right way
     if @root.score == score
        delete_node(@root)
        return score
     else
-      parent = find_parent_of_node_to_delete(score)
-
-      if parent.lesser.score == score
+      result = find_parent_of_node_to_delete(score)
+      parent = result[0]
+      is_lesser = result[1]
+      # binding.pry
+      if is_lesser
         delete_node(parent.lesser, parent, true)
       else
         delete_node(parent.greater, parent, true)
       end
-
     end
-    #   find_place_to_delete(score)
-    # end
-    # re - insert both children
     # depth as calculated, not instance var?
+    score
   end
 
   def find_parent_of_node_to_delete(score, node = @root)
     parent = nil
-    if score == node.lesser.score || score == node.greater.score #can call for nil here
-      parent = node
-    else
-      if score > node.score
-        parent = node.greater.nil? ? nil : find_node(score, node.greater)
+    if score < node.score
+      if score == node.lesser.score  #can call for nil here
+        parent = [node, true]
       else
-        parent = node.lesser.nil? ? nil : find_node(score, node.lesser)
-      end #score > node
-    end #if node = score
-    parent
-  end
+        parent = find_parent_of_node_to_delete(score, node.lesser)
+      end
+    else # score is greater
+      if score == node.greater.score #can call for nil here
+        parent = [node, false]
+      else
+        parent = find_parent_of_node_to_delete(score, node.greater)
+      end
+    end
+    parent #array - [parent, if delete lesser]
+  end #find_parent
 
   def delete_node(node, parent = nil, is_lesser = false)
+    # binding.pry
     if !parent.nil? #not the root
       is_lesser ? parent.lesser = nil : parent.greater = nil
+      if !node.lesser.nil?
+        place_node(node.lesser, @root)
+      end
+    else
+      @root = node.lesser
     end
-    place_node(node.lesser, @root)
     place_node(node.greater, @root)
-    #
-    # insert(lesser)
-    # insert(greater)
-    #
-    # if parent_node == nil
-    #   lesser = @root.lesser
-    #   greater = @root.greater
-    #   new_root = min(@root.lesser)
-    #   @root = new_root
-    #   if lesser != @root
-    #     @root.lesser = lesser
-    #   end
-    # end
   end
 
-
-
 end #bst class
-
-tree = BinarySearchTree.new
-tree.insert(61, "Bill & Ted's Excellent Adventure")
-tree.insert(75, "Hello World")
-tree.insert(98, "Animals United")
-tree.insert(58, "Armageddon")
-tree.insert(36, "Bill & Ted's Bogus Journey")
-tree.insert(93, "Bill & Ted's Excellent Adventure")
-tree.insert(86, "Charlie's Angels")
-tree.insert(38, "Charlie's Country")
-tree.insert(69, "Collateral Damage")
-# file = File.open("movies.txt", "r")
-# binding.pry #.split("\n"),
+#
+# tree = BinarySearchTree.new
+# tree.insert(61, "Bill & Ted's Excellent Adventure")
+# tree.insert(75, "Hello World")
+# tree.insert(98, "Animals United")
+# tree.insert(58, "Armageddon")
+# tree.insert(36, "Bill & Ted's Bogus Journey")
+# tree.insert(93, "Bill & Ted's Excellent Adventure")
+# tree.insert(86, "Charlie's Angels")
+# tree.insert(38, "Charlie's Country")
+# tree.insert(69, "Collateral Damage")
+# # file = File.open("movies.txt", "r")
+# tree.delete(69)
+# # binding.pry #.split("\n"),
