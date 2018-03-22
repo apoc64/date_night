@@ -76,16 +76,15 @@ class BinarySearchTree
      movies_added
   end #load
 
-  def health(depth)
-    # binding.pry
-    nodes = []
-    sort.each do |node_hash|
+  def all_nodes
+    sort.map do |node_hash|
       node = find_node(node_hash.values[0])
-      if node.depth == depth
-        nodes << node
-      end
-      # binding.pry
     end
+  end
+
+  def health(depth)
+    nodes = all_nodes.find_all { |node| node.depth == depth }
+
     nodes.map do |node|
       health_of_node(node)
     end
@@ -97,6 +96,8 @@ class BinarySearchTree
   end
 
   def leaves
+    nodes = all_nodes.find_all { |node| node.greater == nil && node.lesser == nil }
+    nodes.count
   end
 
   def height

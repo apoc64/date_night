@@ -84,7 +84,6 @@ end
 # health
 def test_it_can_check_health
   # Report on the health of the tree by summarizing the number of child nodes (nodes beneath each node) at a given depth. For health, we’re worried about 3 values:
-  #
   # Score of the node
   # Total number of child nodes including the current node
   # Percentage of all the nodes that are this node or it’s children
@@ -96,32 +95,44 @@ def test_it_can_check_health
   tree.insert(86, "Charlie's Angels")
   tree.insert(38, "Charlie's Country")
   tree.insert(69, "Collateral Damage")
+
   assert_equal [[98, 7, 100]], tree.health(0)
-  # => [[98, 7, 100]]
   assert_equal [[58, 6, 85]], tree.health(1)
-  # => [[58, 6, 85]]
   assert_equal [[36, 2, 28], [93, 3, 42]], tree.health(2)
-  # => [[36, 2, 28], [93, 3, 42]]
   # Where the return value is an Array with one nested array per node at that level. The nested array is:
-  #
   # [score in the node, 1 + number of child nodes, floored percentage of (1+children) over the total number of nodes]
   # When the percentages of two nodes at the same level are dramatically different, like 28 and 42 above, then we know that this tree is starting to become unbalanced.
-end
-#
+end #health
 # Understanding the Shape
 # This extensions is made up of two methods:
-#
 # leaves
 def test_it_can_count_leaves
-# A leaf is a node that has no left or right value. How many leaf nodes are on the tree?
-#
-# tree.leaves
-# # => 2
-end
+
+  # A leaf is a node that has no left or right value. How many leaf nodes are on the tree?
+  tree = BinarySearchTree.new
+  tree.insert(98, "Animals United")
+  tree.insert(58, "Armageddon")
+  tree.insert(36, "Bill & Ted's Bogus Journey")
+  tree.insert(93, "Bill & Ted's Excellent Adventure")
+  tree.insert(86, "Charlie's Angels")
+  tree.insert(38, "Charlie's Country")
+  tree.insert(69, "Collateral Damage")
+
+  assert_equal 2, tree.leaves
+  # # => 2
+end #leaves
 
 # height
 def test_it_can_check_height
 # What is the height (aka the maximum depth) of the tree?
+tree = BinarySearchTree.new
+tree.insert(98, "Animals United")
+tree.insert(58, "Armageddon")
+tree.insert(36, "Bill & Ted's Bogus Journey")
+tree.insert(93, "Bill & Ted's Excellent Adventure")
+tree.insert(86, "Charlie's Angels")
+tree.insert(38, "Charlie's Country")
+tree.insert(69, "Collateral Damage")
 #
 # tree.height
 # # => 3
