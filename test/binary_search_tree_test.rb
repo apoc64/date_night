@@ -107,8 +107,9 @@ end #health
 # This extensions is made up of two methods:
 # leaves
 def test_it_can_count_leaves
-
   # A leaf is a node that has no left or right value. How many leaf nodes are on the tree?
+  assert_equal 2, @tree.leaves
+
   tree = BinarySearchTree.new
   tree.insert(98, "Animals United")
   tree.insert(58, "Armageddon")
@@ -119,35 +120,82 @@ def test_it_can_count_leaves
   tree.insert(69, "Collateral Damage")
 
   assert_equal 2, tree.leaves
-  # # => 2
+
+  tree.insert(99, "ger")
+  tree.insert(33, "vvf")
+  tree.insert(88, "vef")
+  tree.insert(68, "v")
+
+  assert_equal 5, tree.leaves
 end #leaves
 
 # height
 def test_it_can_check_height
-# What is the height (aka the maximum depth) of the tree?
-tree = BinarySearchTree.new
-tree.insert(98, "Animals United")
-tree.insert(58, "Armageddon")
-tree.insert(36, "Bill & Ted's Bogus Journey")
-tree.insert(93, "Bill & Ted's Excellent Adventure")
-tree.insert(86, "Charlie's Angels")
-tree.insert(38, "Charlie's Country")
-tree.insert(69, "Collateral Damage")
-#
-# tree.height
-# # => 3
-end
+  # What is the height (aka the maximum depth) of the tree?
+  assert_equal 3, @tree.height
+
+  tree = BinarySearchTree.new
+  tree.insert(98, "Animals United")
+  tree.insert(58, "Armageddon")
+  tree.insert(36, "Bill & Ted's Bogus Journey")
+  tree.insert(93, "Bill & Ted's Excellent Adventure")
+  tree.insert(86, "Charlie's Angels")
+  tree.insert(38, "Charlie's Country")
+  tree.insert(69, "Collateral Damage")
+
+  assert_equal 5, tree.height
+
+  tree.insert(68, "ve")
+  tree.insert(67, "t")
+  tree.insert(23, "juy")
+
+  assert_equal 7, tree.height
+
+end #height
 
 # Extension
 # Deleting Nodes
+
+def test_delete_node_method
+  @tree.delete_node(@tree.root.lesser, @tree.root, true)
+  assert_equal 3, @tree.all_nodes.count
+end
+
 def test_it_can_delete_nodes
-# Remove a specified piece score from the tree:
-#
-# tree.delete(30)
-# # => 30
-# tree.delete(101)
-# # => nil
-# Note that any children of the deleted node should still be present in the tree.
+  # skip
+  # Remove a specified piece score from the tree:
+  # binding.pry
+  # assert_equal 61,
+  # @tree.delete(61)
+  @tree.delete(16)
+  assert_equal nil, @tree.delete(93)
+  # binding.pry 
+  assert_equal 3, @tree.all_nodes.count
+  #
+  tree = BinarySearchTree.new
+  tree.insert(98, "Animals United")
+  tree.insert(58, "Armageddon")
+  tree.insert(36, "Bill & Ted's Bogus Journey")
+  tree.insert(93, "Bill & Ted's Excellent Adventure")
+  tree.insert(86, "Charlie's Angels")
+  tree.insert(38, "Charlie's Country")
+  tree.insert(69, "Collateral Damage")
+
+  # binding.pry
+  # assert_equal 93,
+  tree.delete(93)
+  assert_equal nil, tree.delete(22)
+  assert_equal 6, tree.all_nodes.count
+  # assert_equal 4, tree.height
+
+  # assert_equal 58,
+  tree.delete(58)
+  assert_equal 5, tree.all_nodes.count
+  # assert_equal 4, tree.height # promoiting lower max
+  # # => 30
+  # tree.delete(101)
+  # # => nil
+  # Note that any children of the deleted node should still be present in the tree.
 end
 #
 # Evaluation Rubric
