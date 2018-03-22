@@ -62,7 +62,6 @@ class BinarySearchTreeTest < MiniTest::Test
   end
 
   def test_it_can_sort
-    # Return an array of all the movies and scores in sorted ascending order. Return them as an array of hashes. Note: you’re not using Ruby’s Array#sort. You’re traversing the tree.
     assert_equal @tree.sort, [{"Johnny English"=>16}, {"Hannibal Buress: Animal Furnace"=>50}, {"Bill & Ted's Excellent Adventure"=>61}, {"Sharknado 3"=>92}]
     # add extra: (new duplicates sorted to left)
     @tree.insert(50, "duplicate score")
@@ -82,12 +81,7 @@ class BinarySearchTreeTest < MiniTest::Test
     assert_equal "Cruel Intentions", @tree.min.name
   end
 
-  # health
   def test_it_can_check_health
-    # Report on the health of the tree by summarizing the number of child nodes (nodes beneath each node) at a given depth. For health, we’re worried about 3 values:
-    # Score of the node
-    # Total number of child nodes including the current node
-    # Percentage of all the nodes that are this node or it’s children
     tree = BinarySearchTree.new
     tree.insert(98, "Animals United")
     tree.insert(58, "Armageddon")
@@ -100,13 +94,9 @@ class BinarySearchTreeTest < MiniTest::Test
     assert_equal [[98, 7, 100]], tree.health(0)
     assert_equal [[58, 6, 85]], tree.health(1)
     assert_equal [[36, 2, 28], [93, 3, 42]], tree.health(2)
-    # Where the return value is an Array with one nested array per node at that level. The nested array is:
-    # [score in the node, 1 + number of child nodes, floored percentage of (1+children) over the total number of nodes]
-    # When the percentages of two nodes at the same level are dramatically different, like 28 and 42 above, then we know that this tree is starting to become unbalanced.
   end #health
-  
+
   def test_it_can_count_leaves
-    # A leaf is a node that has no left or right value. How many leaf nodes are on the tree?
     assert_equal 2, @tree.leaves
 
     tree = BinarySearchTree.new
@@ -153,8 +143,6 @@ class BinarySearchTreeTest < MiniTest::Test
   end #height
 
   # Extension
-  # Deleting Nodes
-
   def test_delete_node_method
     @tree.delete_node(@tree.root.lesser, @tree.root, true)
     assert_equal 3, @tree.all_nodes.count
@@ -162,7 +150,7 @@ class BinarySearchTreeTest < MiniTest::Test
 
   def test_it_can_delete_root
     @tree.delete(61)
-    assert_equal 3 @tree.all_nodes.count
+    assert_equal 3, @tree.all_nodes.count
   end
 
   def test_it_can_delete_nodes
@@ -176,9 +164,10 @@ class BinarySearchTreeTest < MiniTest::Test
     @tree.insert(93, "Bill & Ted's Excellent Adventure")
     # binding.pry
     assert_equal 93, @tree.delete(93)
-    assert_equal nil, tree.delete(22)
+    assert_equal nil, @tree.delete(22)
     assert_equal 5, @tree.all_nodes.count
-    # assert_equal 4, tree.height
   end
+
+  #add tests for depth
 
 end

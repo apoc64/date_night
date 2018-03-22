@@ -165,7 +165,7 @@ class BinarySearchTree
   end
 
 end #bst class
-#
+
 # tree = BinarySearchTree.new
 # tree.insert(61, "Bill & Ted's Excellent Adventure")
 # tree.insert(75, "Hello World")
@@ -178,4 +178,4 @@ end #bst class
 # tree.insert(69, "Collateral Damage")
 # # file = File.open("movies.txt", "r")
 # tree.delete(69)
-# # binding.pry #.split("\n"),
+# # binding.pry 
